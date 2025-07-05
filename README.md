@@ -1,92 +1,83 @@
-# 📱 Stratizen Core — Student Event Management App
+📱 Stratizen Core — Student Event Management App
+Stratizen Core is an intelligent, offline-first event management app tailored for university students. It empowers students to organize, share, and coordinate academic or extracurricular events, complete with a gamified XP system, modern UI, and dynamic group-based filtering — all built on a robust MVVM Android architecture using Kotlin and Jetpack Compose.
 
-**Stratizen Core** is a smart, offline-first event management app designed for university students. It enables students to manage, share, and collaborate on academic and extracurricular events with gamified XP tracking and dynamic group filters — all built on modern Android architecture.
+🚀 Features
+🧠 Offline-first Architecture – Powered by Room Database
 
----
+🧪 MVVM Pattern – Clean architecture using ViewModel & LiveData
 
-## 🚀 Features
+🎮 Gamification – XP tracking and level progression
 
-- 🧠 **Offline-first Architecture** using Room DB
-- 🧪 **MVVM Pattern** with LiveData and ViewModel
-- 🎮 **Gamification**: XP and Level system
-- 🔄 **Group Filtering**: General, Clubs, Transport, Class
-- 📅 **Dynamic Event Grouping by Date**
-- 💬 **Edit & Delete Events** with Undo Snackbar
-- 🎨 **Modern UI** with Material3 + Jetpack Compose
-- ✍️ **Event Creation & Editing Screens**
-- ✅ **Scaffold-based Layout**, responsive and clean
+🔄 Group Filtering – Filter events by General, Clubs, Transport, Class
 
----
+📅 Date-based Event Grouping – Events sorted by date automatically
 
-## 🏗️ Built With
+✏️ Event Management – Add, edit, and delete events with undo support
 
-| Stack             | Description                                |
-|------------------|--------------------------------------------|
-| **Kotlin**        | Primary language                           |
-| **Jetpack Compose** | Declarative UI framework                 |
-| **Room DB**       | Local database persistence                 |
-| **ViewModel + LiveData** | Reactive architecture               |
-| **Material3**     | Modern design system                       |
-| **Navigation**    | Compose Navigation                         |
+🎨 Modern UI – Material 3 with Jetpack Compose for fluid interaction
 
----
+🧱 Scaffold Layout – Clean, responsive layouts with Material design components
 
-## 🧩 Modules & Structure
+🏗️ Tech Stack
+Tool/Library	Purpose
+Kotlin	Core programming language
+Jetpack Compose	Declarative, modern UI toolkit
+Room DB	Local data persistence
+ViewModel	Lifecycle-aware state management
+LiveData	Observable data holders
+Material 3	Modern design system
+Navigation	Compose navigation architecture
 
-com.stratizen.core/
-├── data/
-│ └── db/ # Room Database & DAO
-│ └── model/ # Data models (Event, XP, etc.)
-├── repository/ # EventRepository layer
-├── ui/
-│ ├── components/ # Reusable UI (EventCard, DropdownMenuBox, etc.)
-│ └── screens/ # Composables for screens (HomeScreen, AddEventScreen)
-├── viewmodel/ # EventViewModel & XpViewModel
-
-yaml
+📁 Project Structure
+bash
 Copy
 Edit
+com.stratizen.core/
+├── data/
+│   ├── db/            # Room database, DAO interfaces
+│   └── model/         # Data models (Event, XP, etc.)
+├── repository/        # Repository layer (EventRepository, etc.)
+├── ui/
+│   ├── components/    # Reusable composables (EventCard, DropdownMenuBox, etc.)
+│   └── screens/       # Screens (HomeScreen, AddEventScreen, etc.)
+├── viewmodel/         # ViewModels (EventViewModel, XpViewModel)
+🛠️ Getting Started
+✅ Prerequisites
+Android Studio Giraffe or later
 
----
+Kotlin 1.9+
 
-## 🛠️ Getting Started
+Gradle 8.0+
 
-### Prerequisites
-- Android Studio Giraffe or later
-- Kotlin 1.9+
-- Gradle 8.0+
-- Emulator or real device (API 31+ recommended)
+Emulator or physical device (API 31+ recommended)
 
-### Run the App
-1. Clone the repo:
-```bash
+▶️ Running the App
+Clone the repository:
+
+bash
+Copy
+Edit
 git clone https://github.com/your-username/stratizen-core.git
-Open in Android Studio
+Open the project in Android Studio
 
-Click Run ▶️ on an emulator or connected device
+Run the app on an emulator or connected device
 
-🧠 Future Features (Planned)
-📆 Calendar Integration
+🧠 Upcoming Features (Planned)
+📆 Calendar integration
 
-🧭 Deep links and notifications
+🧭 Deep links & smart notifications
 
 🔁 Cloud sync (Firestore or Supabase)
 
-🧑‍🤝‍🧑 Peer collaboration & chat
+🧑‍🤝‍🧑 Peer collaboration & messaging
 
 🛍️ In-app student marketplace
 
-🔒 Encrypted backups & sharing
+🔒 Encrypted data sharing & backups
 
 📄 License
-MIT License — free for educational and personal use.
+This project is licensed under the MIT License — free to use for educational and personal projects.
 
-🙌 Credits
+🙌 Acknowledgements
 Developed with ❤️ by Vincent Nyamao
-Built as part of the Stratizen initiative for decentralizing student collaboration.
-
-yaml
-Copy
-Edit
-
----
+Part of the Stratizen initiative — empowering decentralized student collaboration.
