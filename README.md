@@ -1,83 +1,117 @@
-📱 Stratizen Core — Student Event Management App
-Stratizen Core is an intelligent, offline-first event management app tailored for university students. It empowers students to organize, share, and coordinate academic or extracurricular events, complete with a gamified XP system, modern UI, and dynamic group-based filtering — all built on a robust MVVM Android architecture using Kotlin and Jetpack Compose.
 
-🚀 Features
-🧠 Offline-first Architecture – Powered by Room Database
+# 📱 Stratizen Core — Student Event Management App
 
-🧪 MVVM Pattern – Clean architecture using ViewModel & LiveData
+**Stratizen Core** is an offline-first, gamified event management system built for university students. It enables students to create, manage, and organize both academic and non-academic events seamlessly. The app also promotes collaboration through group filtering, all while tracking user engagement via an XP system — making productivity fun.
 
-🎮 Gamification – XP tracking and level progression
+---
 
-🔄 Group Filtering – Filter events by General, Clubs, Transport, Class
+## 🚀 Features
 
-📅 Date-based Event Grouping – Events sorted by date automatically
+- 🧠 **Offline-first** — Uses Room Database for reliable local storage
+- 🧪 **MVVM Architecture** — Clean separation of concerns with LiveData and ViewModel
+- 🎮 **Gamification** — XP and level tracking to motivate participation
+- 🔄 **Smart Group Filtering** — Organize events by *General*, *Clubs*, *Transport*, or *Class*
+- 📅 **Auto-grouped by Date** — Events are dynamically grouped by day
+- ✏️ **Add, Edit & Delete Events** — Includes Undo Snackbar for error recovery
+- 🎨 **Modern UI** — Jetpack Compose + Material3 for sleek, responsive design
+- 🧱 **Scaffold Layout** — Organized and consistent screen structure
 
-✏️ Event Management – Add, edit, and delete events with undo support
+---
 
-🎨 Modern UI – Material 3 with Jetpack Compose for fluid interaction
+## 🏗️ Tech Stack
 
-🧱 Scaffold Layout – Clean, responsive layouts with Material design components
+| Tool               | Purpose                                  |
+|--------------------|------------------------------------------|
+| **Kotlin**         | Primary development language             |
+| **Jetpack Compose**| Declarative, modern Android UI           |
+| **Room DB**        | Local persistence for offline use        |
+| **ViewModel**      | Manages UI-related data lifecycle-aware  |
+| **LiveData**       | Observables for reactive UI updates      |
+| **Material 3**     | Modern UI design components              |
+| **Navigation**     | In-app screen transitions with Compose   |
 
-🏗️ Tech Stack
-Tool/Library	Purpose
-Kotlin	Core programming language
-Jetpack Compose	Declarative, modern UI toolkit
-Room DB	Local data persistence
-ViewModel	Lifecycle-aware state management
-LiveData	Observable data holders
-Material 3	Modern design system
-Navigation	Compose navigation architecture
+---
 
-📁 Project Structure
-bash
-Copy
-Edit
+## 📁 Project Structure
+
+```
 com.stratizen.core/
 ├── data/
-│   ├── db/            # Room database, DAO interfaces
-│   └── model/         # Data models (Event, XP, etc.)
-├── repository/        # Repository layer (EventRepository, etc.)
+│   ├── db/           # Room database setup (DAOs, entities)
+│   └── model/        # Data models (Event, XP, etc.)
+├── repository/       # Repository layer for data abstraction
 ├── ui/
-│   ├── components/    # Reusable composables (EventCard, DropdownMenuBox, etc.)
-│   └── screens/       # Screens (HomeScreen, AddEventScreen, etc.)
-├── viewmodel/         # ViewModels (EventViewModel, XpViewModel)
-🛠️ Getting Started
-✅ Prerequisites
-Android Studio Giraffe or later
+│   ├── components/   # Reusable UI elements (EventCard, DropdownMenuBox)
+│   └── screens/      # Screen Composables (HomeScreen, AddEventScreen)
+├── viewmodel/        # State management using ViewModel & LiveData
+```
 
-Kotlin 1.9+
+---
 
-Gradle 8.0+
+## 🧪 How It Works
 
-Emulator or physical device (API 31+ recommended)
+1. Users can **create events**, choosing group tags (like "Class", "Club", etc.)
+2. Events are stored in a **Room Database**, ensuring access even offline.
+3. The app groups events by **date** and **tag**, and displays them on a scrollable list.
+4. Students earn **XP** for creating events — laying the foundation for achievements, ranks, or unlocks.
+5. Users can **edit** or **delete events**, with an *Undo* option for safe rollbacks.
+6. A clean **Material3 UI** and **Scaffold layout** ensure smooth navigation and a great user experience.
 
-▶️ Running the App
-Clone the repository:
+---
 
-bash
-Copy
-Edit
+## 🛠️ Getting Started
+
+### ✅ Requirements
+
+- Android Studio **Giraffe** or newer  
+- Kotlin **1.9+**  
+- Gradle **8.0+**  
+- Android device or emulator (**API 31+** recommended)
+
+### ▶️ Run Locally
+
+```bash
+# Clone the repo
 git clone https://github.com/your-username/stratizen-core.git
-Open the project in Android Studio
 
-Run the app on an emulator or connected device
+# Open in Android Studio and Run
+```
 
-🧠 Upcoming Features (Planned)
-📆 Calendar integration
+---
 
-🧭 Deep links & smart notifications
+## 🧠 Upcoming Features
 
-🔁 Cloud sync (Firestore or Supabase)
+- 📆 **Google Calendar integration**
+- 🧭 **Deep links** and **in-app notifications**
+- 🔄 **Cloud sync** with Firestore or Supabase
+- 👥 **Peer-to-peer collaboration** and **chat support**
+- 🛍️ **In-app student marketplace**
+- 🔐 **Encrypted backups** and event sharing
 
-🧑‍🤝‍🧑 Peer collaboration & messaging
+---
 
-🛍️ In-app student marketplace
+## 📄 License
 
-🔒 Encrypted data sharing & backups
+This project is licensed under the **MIT License** — free to use for educational or personal purposes.
 
-📄 License
-This project is licensed under the MIT License — free to use for educational and personal projects.
+```
+MIT License
 
-🙌 Acknowledgements
-Developed with ❤️ by Vincent Nyamao
-Part of the Stratizen initiative — empowering decentralized student collaboration.
+Permission is hereby granted, free of charge, to any person obtaining a copy...
+```
+
+---
+
+## 🙌 Credits
+
+Built with ❤️ by **Vincent Nyamao**  
+Part of the **Stratizen Initiative** — a decentralized movement for enhancing student productivity, coordination, and innovation on campus.
+
+---
+
+## 📸 Screenshots (Coming Soon)
+
+<!-- Uncomment and add images once available
+![Home Screen](screenshots/home_screen.png)
+![Add Event Screen](screenshots/add_event.png)
+-->
