@@ -21,6 +21,7 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     navController: NavController,
@@ -50,6 +51,45 @@ fun HomeScreen(
         }
 
     Scaffold(
+        topBar = {
+            Column {
+                CenterAlignedTopAppBar(
+                    title = { Text("📅 Stratizen Events") },
+                    actions = {
+                        IconButton(onClick = { navController.navigate("settings") }) {
+                            Icon(
+                                imageVector = Icons.Default.Settings,
+                                contentDescription = "Settings"
+                            )
+                        }
+                    }
+                )
+
+                // 🎯 XP Bar
+                xpState?.let { xp ->
+                    val progress = (xp.points % 100) / 100f // Assuming 100 XP per level
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 4.dp)
+                    ) {
+                        Text(
+                            text = "XP: ${xp.points} (Lvl ${xp.level})",
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                        LinearProgressIndicator(
+                            progress = progress,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(6.dp),
+                            color = MaterialTheme.colorScheme.primary,
+                            trackColor = MaterialTheme.colorScheme.surfaceVariant
+                        )
+                    }
+                }
+            }
+        },
         snackbarHost = { SnackbarHost(snackbarHostState) },
         floatingActionButton = {
             FloatingActionButton(onClick = { navController.navigate("add_event") }) {
@@ -63,33 +103,10 @@ fun HomeScreen(
                 .padding(paddingValues)
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
-            // Header section: Title + Settings Icon
+            // 🎯 Group Filter Dropdown
             item {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 4.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(
-                        text = "📅 Stratizen Events",
-                        style = MaterialTheme.typography.titleLarge
-                    )
-                    IconButton(onClick = { navController.navigate("settings") }) {
-                        Icon(
-                            imageVector = Icons.Default.Settings,
-                            contentDescription = "Settings"
-                        )
-                    }
-                }
-
-                // XP + Filter
-                Text(
-                    text = "XP: ${xpState?.points ?: 0} (Lvl ${xpState?.level ?: 1})",
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.primary
-                )
                 Spacer(modifier = Modifier.height(8.dp))
+
                 DropdownMenuBox(
                     options = groupOptions,
                     selectedOption = selectedGroup,
@@ -134,6 +151,7 @@ fun HomeScreen(
             }
         }
 
+        // ⚠️ Delete Confirmation
         if (showConfirmDialog && eventToDelete != null) {
             AlertDialog(
                 onDismissRequest = { showConfirmDialog = false },
@@ -166,6 +184,7 @@ fun HomeScreen(
     }
 }
 
+// Utility function for mapping group to color
 @Composable
 fun groupColor(group: String): androidx.compose.ui.graphics.Color {
     return when (group) {

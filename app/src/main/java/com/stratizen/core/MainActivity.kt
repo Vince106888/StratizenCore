@@ -71,6 +71,18 @@ class MainActivity : ComponentActivity() {
                                 viewModel = themeViewModel
                             )
                         }
+                        composable("notification_settings") {
+                            NotificationSettingsScreen(navController)
+                        }
+                        composable("account_settings") {
+                            AccountSettingsScreen(navController)
+                        }
+                        composable("privacy_settings") {
+                            PrivacySettingsScreen(navController)
+                        }
+                        composable("about") {
+                            AboutScreen(navController)
+                        }
                     }
                 }
             }

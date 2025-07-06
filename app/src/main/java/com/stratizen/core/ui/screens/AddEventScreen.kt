@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class) // Enables experimental Material3 APIs
+
 package com.stratizen.core.ui.screens
 
 import android.app.*
@@ -9,6 +11,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -18,10 +21,11 @@ import com.stratizen.core.notifications.ReminderReceiver
 import com.stratizen.core.ui.components.DropdownMenuBox
 import com.stratizen.core.viewmodel.EventViewModel
 import com.stratizen.core.viewmodel.XpViewModel
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
-import androidx.compose.runtime.livedata.observeAsState
-import kotlinx.coroutines.launch
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 
 @Composable
 fun AddEventScreen(
@@ -43,6 +47,7 @@ fun AddEventScreen(
 
     val existingEvent by viewModel.getEventById(eventId).observeAsState()
 
+    // Load existing event (edit mode)
     LaunchedEffect(existingEvent) {
         existingEvent?.let {
             title = it.title
@@ -57,9 +62,22 @@ fun AddEventScreen(
     val timeFormat = SimpleDateFormat("h:mm a", Locale.getDefault())
 
     Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(if (existingEvent != null) "Edit Event" else "Add Event")
+                },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                    }
+                }
+            )
+        },
         snackbarHost = { SnackbarHost(snackbarHostState) }
     ) { padding ->
         Column(modifier = Modifier.padding(padding).padding(16.dp)) {
+            // Title input
             OutlinedTextField(
                 value = title,
                 onValueChange = { title = it },
@@ -69,6 +87,7 @@ fun AddEventScreen(
 
             Spacer(modifier = Modifier.height(8.dp))
 
+            // Description input
             OutlinedTextField(
                 value = description,
                 onValueChange = { description = it },
@@ -78,6 +97,7 @@ fun AddEventScreen(
 
             Spacer(modifier = Modifier.height(8.dp))
 
+            // Group selector
             DropdownMenuBox(
                 options = groupOptions,
                 selectedOption = selectedGroup,
@@ -86,6 +106,7 @@ fun AddEventScreen(
 
             Spacer(modifier = Modifier.height(8.dp))
 
+            // Date picker
             Text(
                 "Date: ${dateFormat.format(Date(date))}",
                 modifier = Modifier
@@ -108,6 +129,7 @@ fun AddEventScreen(
 
             Spacer(modifier = Modifier.height(4.dp))
 
+            // Time picker
             Text(
                 "Time: ${timeFormat.format(Date(date))}",
                 modifier = Modifier
@@ -129,6 +151,7 @@ fun AddEventScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            // Save/Update button
             Button(
                 onClick = {
                     if (title.isBlank()) {
@@ -164,6 +187,7 @@ fun AddEventScreen(
                         }
                     }
 
+                    // Schedule notification if in the future
                     if (updatedEvent.timestamp - 10 * 60 * 1000 > System.currentTimeMillis()) {
                         scheduleNotification(context, updatedEvent)
                     }
@@ -178,6 +202,7 @@ fun AddEventScreen(
     }
 }
 
+// Notification scheduler
 fun scheduleNotification(context: Context, event: Event) {
     val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
     val triggerTime = event.timestamp - 10 * 60 * 1000
@@ -191,7 +216,6 @@ fun scheduleNotification(context: Context, event: Event) {
                 data = android.net.Uri.parse("package:${context.packageName}")
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK
             }
-
             context.startActivity(intent)
             return
         }

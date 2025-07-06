@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.stratizen.core.ui.screens
 
 import androidx.compose.foundation.clickable
@@ -9,74 +11,70 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.compose.ui.graphics.vector.ImageVector
 
 @Composable
 fun SettingsDashboardScreen(navController: NavController) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        // 🔙 Custom header
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 24.dp)
-        ) {
-            IconButton(onClick = { navController.popBackStack() }) {
-                Icon(
-                    imageVector = Icons.Default.ArrowBack,
-                    contentDescription = "Back"
-                )
-            }
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(
-                text = "Settings",
-                style = MaterialTheme.typography.headlineSmall
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = { Text("Settings") },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                    }
+                }
             )
         }
+    ) { padding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .padding(horizontal = 16.dp)
+        ) {
+            Spacer(modifier = Modifier.height(8.dp))
 
-        // 📂 Preferences Section
-        Text(
-            text = "Preferences",
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(start = 8.dp, bottom = 12.dp)
-        )
+            // 📂 Preferences Section
+            Text(
+                text = "Preferences",
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.padding(vertical = 12.dp, horizontal = 8.dp)
+            )
 
-        SettingsItem(
-            icon = Icons.Default.ColorLens,
-            title = "App Theme",
-            onClick = { navController.navigate("theme_settings") }
-        )
+            SettingsItem(
+                icon = Icons.Default.ColorLens,
+                title = "App Theme",
+                onClick = { navController.navigate("theme_settings") }
+            )
 
-        SettingsItem(
-            icon = Icons.Default.Notifications,
-            title = "Notifications",
-            onClick = { /* TODO: Navigate to notification settings */ }
-        )
+            SettingsItem(
+                icon = Icons.Default.Notifications,
+                title = "Notifications",
+                onClick = { navController.navigate("notification_settings") }
+            )
 
-        SettingsItem(
-            icon = Icons.Default.Person,
-            title = "Account",
-            onClick = { /* TODO: Navigate to profile/account settings */ }
-        )
+            SettingsItem(
+                icon = Icons.Default.Person,
+                title = "Account",
+                onClick = { navController.navigate("account_settings") }
+            )
 
-        SettingsItem(
-            icon = Icons.Default.Security,
-            title = "Privacy & Security",
-            onClick = { /* TODO: Navigate to privacy settings */ }
-        )
+            SettingsItem(
+                icon = Icons.Default.Security,
+                title = "Privacy & Security",
+                onClick = { navController.navigate("privacy_settings") }
+            )
 
-        SettingsItem(
-            icon = Icons.Default.Info,
-            title = "About Stratizen",
-            onClick = { /* TODO: Navigate to about screen */ }
-        )
+            SettingsItem(
+                icon = Icons.Default.Info,
+                title = "About Stratizen",
+                onClick = { navController.navigate("about") }
+            )
+        }
     }
 }
 
