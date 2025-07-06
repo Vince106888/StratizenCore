@@ -1,27 +1,9 @@
-plugins {
-    kotlin("jvm")
-}
 // Top-level build.gradle.kts
 
-buildscript {
-    val kotlin_version = "1.9.22" // ✅ Update Kotlin version
-
-    repositories {
-        google()
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath("com.android.tools.build:gradle:8.9.1") // ✅ Use official stable AGP version
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
-    }
-}
-dependencies {
-    implementation(kotlin("stdlib-jdk8"))
-}
-repositories {
-    mavenCentral()
-}
-kotlin {
-    jvmToolchain(8)
+plugins {
+    // Plugin declarations here are only used if you apply them globally
+    // Normally these are applied in settings.gradle.kts or module build files
+    kotlin("jvm") version "2.0.21" apply false
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.21" apply false
+    id("com.android.application") version "8.9.1" apply false
 }

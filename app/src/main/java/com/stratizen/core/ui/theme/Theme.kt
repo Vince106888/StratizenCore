@@ -1,25 +1,46 @@
 package com.stratizen.core.ui.theme
 
-import androidx.compose.material3.*
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 
+// 1. Define light color scheme
 private val LightColors = lightColorScheme(
-    primary = Color(0xFF6200EE),
-    onPrimary = Color.White,
-    secondary = Color(0xFF03DAC6),
-    onSecondary = Color.Black,
-    background = Color(0xFFF2F2F2),
-    onBackground = Color.Black,
-    surface = Color.White,
-    onSurface = Color.Black
+    primary = Purple40,
+    onPrimary = White,
+    secondary = PurpleGrey40,
+    onSecondary = White,
+    background = White,
+    onBackground = Black,
+    surface = White,
+    onSurface = Black,
+)
+
+// 2. Define dark color scheme
+private val DarkColors = darkColorScheme(
+    primary = Purple80,
+    onPrimary = Black,
+    secondary = PurpleGrey80,
+    onSecondary = Black,
+    background = Black,
+    onBackground = White,
+    surface = DarkGray,
+    onSurface = White,
 )
 
 @Composable
-fun StratizenTheme(content: @Composable () -> Unit) {
+fun StratizenTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable () -> Unit
+) {
+    val colorScheme = if (darkTheme) DarkColors else LightColors
+
     MaterialTheme(
-        colorScheme = LightColors,
-        typography = Typography(), // You can customize this too
+        colorScheme = colorScheme,
+        typography = AppTypography,
+        shapes = AppShapes,
         content = content
     )
 }
