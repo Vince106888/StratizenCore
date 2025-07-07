@@ -9,7 +9,6 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -21,6 +20,7 @@ import com.stratizen.core.viewmodel.XpViewModel
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
+import com.stratizen.core.ui.components.XpProgressBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -78,25 +78,13 @@ fun HomeScreen(
         ) {
             // 🎯 XP Section Below TopAppBar
             xpState?.let { xp ->
-                Column(
+                XpProgressBar(
+                    points = xp.points,
+                    level = xp.level,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp, vertical = 8.dp)
-                ) {
-                    Text(
-                        text = "XP: ${xp.points} (Lvl ${xp.level})",
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                    LinearProgressIndicator(
-                        progress = (xp.points % 100) / 100f,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(6.dp),
-                        color = MaterialTheme.colorScheme.primary,
-                        trackColor = MaterialTheme.colorScheme.surfaceVariant
-                    )
-                }
+                )
             }
 
             // 📝 Events Section
@@ -137,7 +125,6 @@ fun HomeScreen(
                         items(dayEvents) { event ->
                             EventCard(
                                 event = event,
-                                color = groupColor(event.group),
                                 onDelete = {
                                     eventToDelete = event
                                     showConfirmDialog = true

@@ -22,14 +22,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 // ✅ Jetpack Navigation for Compose
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 
 // ✅ Your app-specific imports
 import com.stratizen.core.constants.*
 import com.stratizen.core.datastore.ThemeMode
-import com.stratizen.core.ui.screens.*
+import com.stratizen.core.navigation.StratizenNavGraph
 import com.stratizen.core.ui.theme.StratizenTheme
 import com.stratizen.core.viewmodel.EventViewModel
 import com.stratizen.core.viewmodel.ThemeViewModel
@@ -88,61 +86,13 @@ class MainActivity : ComponentActivity() {
                     val xpViewModel: XpViewModel = viewModel()
 
                     // 🗺️ Define navigation routes
-                    NavHost(
+                    StratizenNavGraph(
                         navController = navController,
-                        startDestination = "home"
-                    ) {
-                        // 🏠 Home screen
-                        composable("home") {
-                            HomeScreen(
-                                navController = navController,
-                                viewModel = eventViewModel,
-                                xpViewModel = xpViewModel
-                            )
-                        }
+                        eventViewModel = eventViewModel,
+                        themeViewModel = themeViewModel,
+                        xpViewModel = xpViewModel
+                    )
 
-                        // ➕ Add Event screen
-                        composable("add_event") {
-                            AddEventScreen(
-                                navController = navController,
-                                viewModel = eventViewModel,
-                                xpViewModel = xpViewModel
-                            )
-                        }
-
-                        // ⚙️ Settings dashboard
-                        composable("settings") {
-                            SettingsDashboardScreen(navController)
-                        }
-
-                        // 🎨 Theme settings screen
-                        composable("theme_settings") {
-                            ThemeSettingsScreen(
-                                navController = navController,
-                                viewModel = themeViewModel
-                            )
-                        }
-
-                        // 🔔 Notification settings
-                        composable("notification_settings") {
-                            NotificationSettingsScreen(navController)
-                        }
-
-                        // 👤 Account settings
-                        composable("account_settings") {
-                            AccountSettingsScreen(navController)
-                        }
-
-                        // 🔒 Privacy screen
-                        composable("privacy_settings") {
-                            PrivacySettingsScreen(navController)
-                        }
-
-                        // ℹ️ About screen
-                        composable("about") {
-                            AboutScreen(navController)
-                        }
-                    }
                 }
             }
         }

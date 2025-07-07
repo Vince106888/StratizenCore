@@ -76,14 +76,14 @@ fun ThemeSettingsScreen(navController: NavController, viewModel: ThemeViewModel)
                         .fillMaxWidth()
                         .background(backgroundColor, shape = RoundedCornerShape(12.dp))
                         .clickable { viewModel.setTheme(mode) }
-                        .padding(16.dp),
+                        .padding(8.dp), // Padding inside the row
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     RadioButton(
                         selected = currentTheme == mode,
                         onClick = { viewModel.setTheme(mode) }
                     )
-                    Spacer(modifier = Modifier.width(12.dp))
+                    Spacer(modifier = Modifier.width(6.dp)) // Spacing between radio button and text
                     Column {
                         Text(
                             text = when (mode) {
@@ -124,16 +124,16 @@ fun ThemeSettingsScreen(navController: NavController, viewModel: ThemeViewModel)
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(backgroundColor, RoundedCornerShape(12.dp))
+                        .background(backgroundColor, RoundedCornerShape(12.dp)) // Rounded corners
                         .clickable { viewModel.updateFontSize(size) }
-                        .padding(16.dp),
+                        .padding(8.dp), // Padding inside the row
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     RadioButton(
                         selected = currentFontSize == size,
                         onClick = { viewModel.updateFontSize(size) }
                     )
-                    Spacer(modifier = Modifier.width(12.dp))
+                    Spacer(modifier = Modifier.width(6.dp))
                     Text(
                         text = when (size) {
                             FontSize.SMALL -> "Small"
@@ -164,14 +164,14 @@ fun ThemeSettingsScreen(navController: NavController, viewModel: ThemeViewModel)
                         .fillMaxWidth()
                         .background(backgroundColor, RoundedCornerShape(12.dp))
                         .clickable { viewModel.updateFontFamily(family) }
-                        .padding(16.dp),
+                        .padding(8.dp), // Padding inside the row
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     RadioButton(
                         selected = currentFontFamily == family,
                         onClick = { viewModel.updateFontFamily(family) }
                     )
-                    Spacer(modifier = Modifier.width(12.dp))
+                    Spacer(modifier = Modifier.width(6.dp)) // Spacing between radio button and text
                     Text(
                         text = when (family) {
                             FontFamilyChoice.DEFAULT -> "Default"
