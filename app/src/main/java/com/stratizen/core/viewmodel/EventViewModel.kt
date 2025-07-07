@@ -18,10 +18,16 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
         allEvents = repository.getAllEvents()
     }
 
+    /**
+     * Adds an event to the database.
+     */
     fun addEvent(event: Event) = viewModelScope.launch {
         repository.insert(event)
     }
 
+    /**
+     * Adds an event and returns the new ID via a callback.
+     */
     fun addEventAndReturnId(event: Event, onResult: (Int) -> Unit) {
         viewModelScope.launch {
             val id = repository.insertAndReturnId(event)
@@ -29,18 +35,30 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun getEventsByGroup(group: String): LiveData<List<Event>> {
-        return repository.getEventsByGroup(group)
-    }
-
-    fun delete(event: Event) = viewModelScope.launch {
-        repository.delete(event)
-    }
-
+    /**
+     * Updates an existing event in the database.
+     */
     fun update(event: Event) = viewModelScope.launch {
         repository.update(event)
     }
 
+    /**
+     * Deletes an event from the database.
+     */
+    fun delete(event: Event) = viewModelScope.launch {
+        repository.delete(event)
+    }
+
+    /**
+     * Gets all events matching a given group.
+     */
+    fun getEventsByGroup(group: String): LiveData<List<Event>> {
+        return repository.getEventsByGroup(group)
+    }
+
+    /**
+     * Retrieves a single event by ID.
+     */
     fun getEventById(id: Int): LiveData<Event?> {
         return repository.getEventById(id)
     }

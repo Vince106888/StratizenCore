@@ -31,4 +31,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "StratizenCore"
-include(":app") // ✅ Correct module name
+include(":app")

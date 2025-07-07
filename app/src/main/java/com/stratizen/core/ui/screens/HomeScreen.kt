@@ -9,6 +9,7 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -31,6 +32,7 @@ fun HomeScreen(
     val xpState by xpViewModel.xp.observeAsState()
     val groupOptions = listOf("General", "Clubs", "Transport", "Class")
     var selectedGroup by remember { mutableStateOf("General") }
+    var selectedGroups by remember { mutableStateOf(listOf<String>()) }
 
     val events by if (selectedGroup == "General") {
         viewModel.allEvents.observeAsState(emptyList())
@@ -52,43 +54,14 @@ fun HomeScreen(
 
     Scaffold(
         topBar = {
-            Column {
-                CenterAlignedTopAppBar(
-                    title = { Text("📅 Stratizen Events") },
-                    actions = {
-                        IconButton(onClick = { navController.navigate("settings") }) {
-                            Icon(
-                                imageVector = Icons.Default.Settings,
-                                contentDescription = "Settings"
-                            )
-                        }
-                    }
-                )
-
-                // 🎯 XP Bar
-                xpState?.let { xp ->
-                    val progress = (xp.points % 100) / 100f // Assuming 100 XP per level
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 4.dp)
-                    ) {
-                        Text(
-                            text = "XP: ${xp.points} (Lvl ${xp.level})",
-                            style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                        LinearProgressIndicator(
-                            progress = progress,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(6.dp),
-                            color = MaterialTheme.colorScheme.primary,
-                            trackColor = MaterialTheme.colorScheme.surfaceVariant
-                        )
+            CenterAlignedTopAppBar(
+                title = { Text("📅 Stratizen Events") },
+                actions = {
+                    IconButton(onClick = { navController.navigate("settings") }) {
+                        Icon(Icons.Default.Settings, contentDescription = "Settings")
                     }
                 }
-            }
+            )
         },
         snackbarHost = { SnackbarHost(snackbarHostState) },
         floatingActionButton = {
@@ -97,61 +70,90 @@ fun HomeScreen(
             }
         }
     ) { paddingValues ->
-        LazyColumn(
+
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
-            // 🎯 Group Filter Dropdown
-            item {
-                Spacer(modifier = Modifier.height(8.dp))
-
-                DropdownMenuBox(
-                    options = groupOptions,
-                    selectedOption = selectedGroup,
-                    onOptionSelected = { selectedGroup = it }
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-            }
-
-            if (events.isEmpty()) {
-                item {
+            // 🎯 XP Section Below TopAppBar
+            xpState?.let { xp ->
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                ) {
                     Text(
-                        "No events yet. Tap ➕ to add.",
-                        style = MaterialTheme.typography.bodyLarge
+                        text = "XP: ${xp.points} (Lvl ${xp.level})",
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                    LinearProgressIndicator(
+                        progress = (xp.points % 100) / 100f,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(6.dp),
+                        color = MaterialTheme.colorScheme.primary,
+                        trackColor = MaterialTheme.colorScheme.surfaceVariant
                     )
                 }
-            } else {
-                groupedEvents.forEach { (date, dayEvents) ->
+            }
+
+            // 📝 Events Section
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+            ) {
+                // Group Filter
+                item {
+                    DropdownMenuBox(
+                        options = groupOptions,
+                        selectedOption = selectedGroup,
+                        onOptionSelected = { selectedGroup = it }
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+
+                // Empty State
+                if (events.isEmpty()) {
                     item {
                         Text(
-                            text = date,
-                            style = MaterialTheme.typography.labelLarge,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 8.dp)
+                            "No events yet. Tap ➕ to add.",
+                            style = MaterialTheme.typography.bodyLarge
                         )
                     }
-                    items(dayEvents) { event ->
-                        EventCard(
-                            event = event,
-                            color = groupColor(event.group),
-                            onDelete = {
-                                eventToDelete = event
-                                showConfirmDialog = true
-                            },
-                            onEdit = {
-                                navController.navigate("add_event?id=${event.id}")
-                            }
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
+                } else {
+                    groupedEvents.forEach { (date, dayEvents) ->
+                        item {
+                            Text(
+                                text = date,
+                                style = MaterialTheme.typography.labelLarge,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 8.dp)
+                            )
+                        }
+                        items(dayEvents) { event ->
+                            EventCard(
+                                event = event,
+                                color = groupColor(event.group),
+                                onDelete = {
+                                    eventToDelete = event
+                                    showConfirmDialog = true
+                                },
+                                onEdit = {
+                                    navController.navigate("add_event?id=${event.id}")
+                                }
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                        }
                     }
                 }
             }
         }
 
-        // ⚠️ Delete Confirmation
+        // ⚠️ Delete Confirmation Dialog
         if (showConfirmDialog && eventToDelete != null) {
             AlertDialog(
                 onDismissRequest = { showConfirmDialog = false },
@@ -184,7 +186,7 @@ fun HomeScreen(
     }
 }
 
-// Utility function for mapping group to color
+// Group color mapping utility
 @Composable
 fun groupColor(group: String): androidx.compose.ui.graphics.Color {
     return when (group) {

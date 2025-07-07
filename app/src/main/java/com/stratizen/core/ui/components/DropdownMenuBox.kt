@@ -1,12 +1,21 @@
 package com.stratizen.core.ui.components
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 
+/**
+ * A simple single-select dropdown using an OutlinedTextField.
+ *
+ * @param options The list of items to display.
+ * @param selectedOption The currently selected item.
+ * @param onOptionSelected Callback when an option is selected.
+ */
 @Composable
 fun DropdownMenuBox(
     options: List<String>,
@@ -15,32 +24,37 @@ fun DropdownMenuBox(
 ) {
     var expanded by remember { mutableStateOf(false) }
 
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .wrapContentSize()) {
+    Box(modifier = Modifier.fillMaxWidth()) {
         OutlinedTextField(
             value = selectedOption,
-            onValueChange = {}, // 🔒 Disabled typing
+            onValueChange = {},
+            readOnly = true,
+            label = { Text("Select Group") },
+            trailingIcon = {
+                IconButton(onClick = { expanded = !expanded }) {
+                    Icon(
+                        imageVector = Icons.Default.ArrowDropDown,
+                        contentDescription = "Dropdown"
+                    )
+                }
+            },
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { expanded = true },
-            label = { Text("Filter by Group") },
-            readOnly = true, // ✅ Prevents typing
-            enabled = true
+                .clickable { expanded = true }
         )
 
         DropdownMenu(
             expanded = expanded,
-            onDismissRequest = { expanded = false },
-            modifier = Modifier.fillMaxWidth()
+            onDismissRequest = { expanded = false }
         ) {
             options.forEach { option ->
-                DropdownMenuItem(onClick = {
-                    onOptionSelected(option)
-                    expanded = false
-                }) {
-                    Text(option)
-                }
+                DropdownMenuItem(
+                    text = { Text(option) },
+                    onClick = {
+                        onOptionSelected(option)
+                        expanded = false
+                    }
+                )
             }
         }
     }

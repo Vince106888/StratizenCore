@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -23,7 +24,10 @@ fun SettingsDashboardScreen(navController: NavController) {
                 title = { Text("Settings") },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Back"
+                        )
                     }
                 }
             )
@@ -33,45 +37,49 @@ fun SettingsDashboardScreen(navController: NavController) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = 20.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
-            // 📂 Preferences Section
             Text(
                 text = "Preferences",
                 style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.padding(vertical = 12.dp, horizontal = 8.dp)
+                color = MaterialTheme.colorScheme.primary
             )
 
             SettingsItem(
-                icon = Icons.Default.ColorLens,
+                icon = Icons.Filled.ColorLens, // 🎨 Theme
                 title = "App Theme",
+                subtitle = "Light / Dark / System Default",
                 onClick = { navController.navigate("theme_settings") }
             )
 
             SettingsItem(
-                icon = Icons.Default.Notifications,
+                icon = Icons.Filled.Notifications, // 🔔 Notifications
                 title = "Notifications",
+                subtitle = "Manage alerts & reminders",
                 onClick = { navController.navigate("notification_settings") }
             )
 
             SettingsItem(
-                icon = Icons.Default.Person,
+                icon = Icons.Filled.ManageAccounts, // 👤 Account
                 title = "Account",
+                subtitle = "Edit profile or logout",
                 onClick = { navController.navigate("account_settings") }
             )
 
             SettingsItem(
-                icon = Icons.Default.Security,
+                icon = Icons.Filled.Lock, // 🔒 Privacy & Security
                 title = "Privacy & Security",
+                subtitle = "Control your data visibility",
                 onClick = { navController.navigate("privacy_settings") }
             )
 
             SettingsItem(
-                icon = Icons.Default.Info,
+                icon = Icons.Filled.Info, // ℹ️ About
                 title = "About Stratizen",
+                subtitle = "Version 1.0.0",
                 onClick = { navController.navigate("about") }
             )
         }
@@ -82,17 +90,18 @@ fun SettingsDashboardScreen(navController: NavController) {
 fun SettingsItem(
     icon: ImageVector,
     title: String,
+    subtitle: String,
     onClick: () -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 6.dp)
             .clickable { onClick() },
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(14.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant
-        )
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Row(
             modifier = Modifier
@@ -105,11 +114,20 @@ fun SettingsItem(
                 contentDescription = "$title Icon",
                 tint = MaterialTheme.colorScheme.primary
             )
+
             Spacer(modifier = Modifier.width(16.dp))
-            Text(
-                text = title,
-                style = MaterialTheme.typography.bodyLarge
-            )
+
+            Column {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.bodyLarge
+                )
+                Text(
+                    text = subtitle,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
         }
     }
 }

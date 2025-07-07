@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
@@ -25,7 +26,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".notifications.ReminderReceiver" />
+        <receiver android:name=".notifications.ReminderReceiver" android:exported="false" />
 
     </application>
 

@@ -5,8 +5,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import com.stratizen.core.datastore.FontFamilyChoice
+import com.stratizen.core.datastore.FontSize
 
-// 1. Define light color scheme
+/**
+ * Stratizen App Theme - Applies dynamic color schemes and typography
+ * based on system or manual dark mode preference.
+ */
+
+// 🎨 Light theme colors
 private val LightColors = lightColorScheme(
     primary = Purple40,
     onPrimary = White,
@@ -15,10 +22,10 @@ private val LightColors = lightColorScheme(
     background = White,
     onBackground = Black,
     surface = White,
-    onSurface = Black,
+    onSurface = Black
 )
 
-// 2. Define dark color scheme
+// 🌙 Dark theme colors
 private val DarkColors = darkColorScheme(
     primary = Purple80,
     onPrimary = Black,
@@ -27,19 +34,29 @@ private val DarkColors = darkColorScheme(
     background = Black,
     onBackground = White,
     surface = DarkGray,
-    onSurface = White,
+    onSurface = White
 )
 
+/**
+ * Applies the Stratizen design system to the app.
+ *
+ * @param darkTheme Whether to use the dark theme (defaults to system setting).
+ * @param fontSize User-selected font size scale (SMALL, MEDIUM, LARGE).
+ * @param fontFamilyChoice User-selected font family (DEFAULT, ALICE).
+ * @param content Composable UI to wrap with theme.
+ */
 @Composable
 fun StratizenTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
+    fontSize: FontSize = FontSize.MEDIUM,
+    fontFamilyChoice: FontFamilyChoice = FontFamilyChoice.DEFAULT,
     content: @Composable () -> Unit
 ) {
     val colorScheme = if (darkTheme) DarkColors else LightColors
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = AppTypography,
+        typography = getAppTypography(fontSize, fontFamilyChoice), // ✅ Apply dynamic typography
         shapes = AppShapes,
         content = content
     )
